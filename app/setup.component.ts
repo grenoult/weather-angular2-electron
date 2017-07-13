@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Setup } from './setup';
 import { DataService } from './app.service';
+
+// To interact with Electron
+const {ipcRenderer} = require('electron');
 
 @Component({
     selector: 'setup',
@@ -10,7 +14,7 @@ import { DataService } from './app.service';
 })
 export class SetupComponent {
 
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService, private router: Router) {
 
     }
 
@@ -30,7 +34,7 @@ export class SetupComponent {
         return Setup.getUnitText(unit);
     }
 
-    model = new Setup(0, '');
+    model = new Setup();
 
     locationSearch: string;
 
@@ -43,12 +47,14 @@ export class SetupComponent {
             this.locationSearchResult = res.json();
             this.locationSearchCount = this.locationSearchResult.length;
         }.bind(this));
-        console.log(this.locationSearch);
     }
 
     save() {
-        // TODO persist in local storage
-        console.log(this.model);
+        ipcRenderer.send('save-user-settings', this.model);
+
+        ipcRenderer.on('save-user-settings-reply', function(event, arg) {
+            this.router.navigate(['/forecast']);
+        }.bind(this));
     }
 
 }

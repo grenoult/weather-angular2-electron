@@ -6,10 +6,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent }   from './app.component';
 import { SetupComponent }   from './setup.component';
+import { ForecastComponent }   from './forecast.component';
 
 const appRoutes: Routes = [
     { path: 'setup', component: SetupComponent },
-    // { path: 'forecast', component: HeroDetailComponent },
+    { path: 'forecast', component: ForecastComponent },
     { path: '',
         pathMatch: 'full',
         component: SetupComponent
@@ -19,7 +20,7 @@ const appRoutes: Routes = [
 
 @NgModule({
     imports:      [ BrowserModule, FormsModule, HttpModule, JsonpModule, RouterModule.forRoot(appRoutes) ],
-    declarations: [ AppComponent, SetupComponent ],
+    declarations: [ AppComponent, SetupComponent, ForecastComponent ],
     bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

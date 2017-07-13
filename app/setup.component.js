@@ -10,17 +10,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+const router_1 = require("@angular/router");
 const setup_1 = require("./setup");
 const app_service_1 = require("./app.service");
+// To interact with Electron
+const { ipcRenderer } = require('electron');
 let SetupComponent = class SetupComponent {
-    constructor(dataService) {
+    constructor(dataService, router) {
         this.dataService = dataService;
+        this.router = router;
         /**
          * Store type of temperature unit in an array.
          * @type {number[]}
          */
         this.temperatureUnitValues = setup_1.Setup.getUnits();
-        this.model = new setup_1.Setup(0, '');
+        this.model = new setup_1.Setup();
         this.locationSearchResult = [];
     }
     /**
@@ -37,11 +41,12 @@ let SetupComponent = class SetupComponent {
             this.locationSearchResult = res.json();
             this.locationSearchCount = this.locationSearchResult.length;
         }.bind(this));
-        console.log(this.locationSearch);
     }
     save() {
-        // TODO persist in local storage
-        console.log(this.model);
+        ipcRenderer.send('save-user-settings', this.model);
+        ipcRenderer.on('save-user-settings-reply', function (event, arg) {
+            this.router.navigate(['/forecast']);
+        }.bind(this));
     }
 };
 SetupComponent = __decorate([
@@ -51,7 +56,7 @@ SetupComponent = __decorate([
         templateUrl: 'setup.component.html',
         providers: [app_service_1.DataService]
     }),
-    __metadata("design:paramtypes", [app_service_1.DataService])
+    __metadata("design:paramtypes", [app_service_1.DataService, router_1.Router])
 ], SetupComponent);
 exports.SetupComponent = SetupComponent;
 //# sourceMappingURL=setup.component.js.map

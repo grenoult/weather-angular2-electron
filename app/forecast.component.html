@@ -1,4 +1,31 @@
 <div class="container">
     <h1>Forecast</h1>
-    
+    <span *ngIf="!setupLoaded || !forecastLoaded">
+        Loading...
+    </span>
+
+    <div *ngIf="setupLoaded && forecastLoaded">
+        <h2>{{ forecast.locationTitle }}</h2>
+        <div class="row">
+            <div *ngFor="let day of forecast.consolidatedWeather; let i = index">
+                <div class="col-12" *ngIf="i == 0">
+                    <h3>{{ forecast.consolidatedWeather[i].weather_state_name }}</h3>
+                    <h4>
+                        {{ forecast.consolidatedWeather[i].min_temp | number : '1.2-2' }}{{ setupUnitDisplay }} /
+                        {{ forecast.consolidatedWeather[i].max_temp | number : '1.2-2' }}{{ setupUnitDisplay }}
+                    </h4>
+                </div>
+                <div class="col-sm-2" *ngIf="i > 0">
+                    <p>{{ forecast.consolidatedWeather[i].weather_state_name }}</p>
+                    <p>
+                        {{ forecast.consolidatedWeather[i].min_temp | number : '1.2-2' }}{{ setupUnitDisplay }} /
+                        {{ forecast.consolidatedWeather[i].max_temp | number : '1.2-2' }}{{ setupUnitDisplay }}
+                    </p>
+                    <p>
+                        {{ forecast.consolidatedWeather[i].applicable_date | date:'shortDate' }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

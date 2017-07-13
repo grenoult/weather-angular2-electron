@@ -6,6 +6,9 @@ const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const url = require('url');
+const fs = require('fs');
+const {ipcMain} = require('electron');
+const dataFilePath = path.join(app.getPath('userData'), 'userData.json');
 let mainWindow;
 
 function createWindow () {
@@ -41,6 +44,26 @@ app.on('activate', function () {
     if (mainWindow === null) {
         createWindow()
     }
+});
+
+ipcMain.on('save-user-settings', (event, arg) => {
+    fs.writeFile(dataFilePath, JSON.stringify(arg), 'utf8', function(err) {
+        if (err) {
+            event.sender.send('save-user-settings-reply', false);
+        } else {
+            event.sender.send('save-user-settings-reply', true);
+        }
+    });
+});
+
+ipcMain.on('load-user-settings', (event, arg) => {
+    fs.readFile(dataFilePath, 'utf8', function(err, data) {
+        if (err) {
+            event.sender.send('load-user-settings-reply', false);
+        } else {
+            event.sender.send('load-user-settings-reply', data);
+        }
+    });
 });
 
 // In this file you can include the rest of your app's specific main process

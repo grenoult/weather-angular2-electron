@@ -22,6 +22,11 @@ let DataService = class DataService {
         return this.http.get(this.rootUrl + 'location/search/?query=' + locationSearch)
             .toPromise();
     }
+    queryForecast(locationId) {
+        // TODO make this query better
+        return this.http.get(this.rootUrl + 'location/' + locationId + '/')
+            .toPromise();
+    }
 };
 DataService = __decorate([
     core_1.Injectable(),

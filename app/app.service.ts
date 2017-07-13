@@ -17,6 +17,12 @@ export class DataService {
             .toPromise();
     }
 
+    queryForecast(locationId: string) {
+        // TODO make this query better
+        return this.http.get(this.rootUrl + 'location/'+locationId+'/')
+            .toPromise();
+    }
+
     // /**
     //  * Get fields available for generating data.
     //  *

@@ -13,9 +13,10 @@ const http_1 = require("@angular/http");
 const router_1 = require("@angular/router");
 const app_component_1 = require("./app.component");
 const setup_component_1 = require("./setup.component");
+const forecast_component_1 = require("./forecast.component");
 const appRoutes = [
     { path: 'setup', component: setup_component_1.SetupComponent },
-    // { path: 'forecast', component: HeroDetailComponent },
+    { path: 'forecast', component: forecast_component_1.ForecastComponent },
     { path: '',
         pathMatch: 'full',
         component: setup_component_1.SetupComponent
@@ -27,7 +28,7 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, http_1.JsonpModule, router_1.RouterModule.forRoot(appRoutes)],
-        declarations: [app_component_1.AppComponent, setup_component_1.SetupComponent],
+        declarations: [app_component_1.AppComponent, setup_component_1.SetupComponent, forecast_component_1.ForecastComponent],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);
