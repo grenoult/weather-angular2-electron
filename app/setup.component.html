@@ -1,0 +1,39 @@
+<div class="container">
+    <h1>Setup</h1>
+    <form>
+        <div class="form-group">
+            <label for="unit">Unit</label>
+            <select class="form-control" id="unit" [(ngModel)]="model.unit" name="unit">
+                <option *ngFor="let val of temperatureUnitValues" [value]="val">
+                    {{getTemperatureUnitTexts(val)}}
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="locationSearch">Location</label>
+            <input type="text" class="form-control" id="locationSearch" [(ngModel)]="locationSearch" name="locationSearch">
+        </div>
+
+        <input type="button" class="btn btn-default" value="Search Location" (click)="searchLocation()">
+
+        <div *ngIf="locationSearchCount !== undefined">
+            <span *ngIf="locationSearchCount === 0">
+                There is no city available with the name "{{ locationSearch }}".
+            </span>
+            <div class="container" *ngIf="locationSearchCount > 0">
+                <div class="row" *ngFor="let record of locationSearchResult">
+                    <div class="col-sm-3">
+                        {{ record.title }}
+                    </div>
+                    <div class="col-sm-3">
+                        <input class="btn btn-default" type="button" (click)="model.location = record.woeid" value="Select">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success" (click)="save()">Submit</button>
+
+    </form>
+</div>
