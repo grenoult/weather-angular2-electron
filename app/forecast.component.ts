@@ -50,9 +50,11 @@ export class ForecastComponent implements OnInit, OnDestroy {
             this.loadForecast();
 
             // Update date and time every second
-            this.timer = setInterval(()=> {
-                this.updateTime();
-            }, 1000);
+            if (!this.timer) {
+                this.timer = setInterval(()=> {
+                    this.updateTime();
+                }, 1000);
+            }
 
         }.bind(this));
     }
@@ -105,9 +107,6 @@ export class ForecastComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        // Not working?!
-        console.log('Destroy!');
-        console.log(this.timer);
         if (this.timer) {
             clearInterval(this.timer);
         }

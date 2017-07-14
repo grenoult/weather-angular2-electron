@@ -19,7 +19,6 @@ const moment = require("moment/moment");
 // To interact with Electron
 const { ipcRenderer } = require('electron');
 let ForecastComponent = class ForecastComponent {
-    // timer: number;
     constructor(dataService, zone, router) {
         this.dataService = dataService;
         this.zone = zone;
@@ -41,9 +40,11 @@ let ForecastComponent = class ForecastComponent {
             this.loadSetupData(data);
             this.loadForecast();
             // Update date and time every second
-            this.timer = setInterval(() => {
-                this.updateTime();
-            }, 1000);
+            if (!this.timer) {
+                this.timer = setInterval(() => {
+                    this.updateTime();
+                }, 1000);
+            }
         }.bind(this));
     }
     loadSetupData(userData) {
@@ -88,6 +89,7 @@ let ForecastComponent = class ForecastComponent {
         this.refreshZone();
     }
     ngOnDestroy() {
+        // Not working?!
         console.log('Destroy!');
         console.log(this.timer);
         if (this.timer) {
