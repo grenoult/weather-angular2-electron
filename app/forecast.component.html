@@ -1,30 +1,45 @@
-<div class="container">
-    <h1>Forecast</h1>
-    <span *ngIf="!setupLoaded || !forecastLoaded">
-        Loading...
-    </span>
+<span *ngIf="!setupLoaded || !forecastLoaded">
+    Loading...
+</span>
 
-    <div *ngIf="setupLoaded && forecastLoaded">
-        <h2>{{ forecast.locationTitle }}</h2>
-        <div class="row">
-            <div *ngFor="let day of forecast.consolidatedWeather; let i = index">
-                <div class="col-12" *ngIf="i == 0">
-                    <h3>{{ forecast.consolidatedWeather[i].weather_state_name }}</h3>
-                    <h4>
-                        {{ forecast.consolidatedWeather[i].min_temp | number : '1.2-2' }}{{ setupUnitDisplay }} /
-                        {{ forecast.consolidatedWeather[i].max_temp | number : '1.2-2' }}{{ setupUnitDisplay }}
-                    </h4>
-                </div>
-                <div class="col-sm-2" *ngIf="i > 0">
-                    <p>{{ forecast.consolidatedWeather[i].weather_state_name }}</p>
-                    <p>
-                        {{ forecast.consolidatedWeather[i].min_temp | number : '1.2-2' }}{{ setupUnitDisplay }} /
-                        {{ forecast.consolidatedWeather[i].max_temp | number : '1.2-2' }}{{ setupUnitDisplay }}
-                    </p>
-                    <p>
-                        {{ forecast.consolidatedWeather[i].applicable_date | date:'shortDate' }}
-                    </p>
-                </div>
+<div *ngIf="setupLoaded && forecastLoaded">
+    <h1>Today</h1>
+    <h2>{{ forecast.locationTitle }}</h2>
+    <div class="row">
+        <div *ngFor="let day of forecast.consolidatedWeather; let i = index">
+            <div class="col-sm-6 col-xs-6" *ngIf="i == 0">
+                <h3>{{ forecast.consolidatedWeather[i].weather_state_name }}</h3>
+                <h5>{{ nowDay }}</h5>
+                <h5>{{ nowTime }}</h5>
+                <h4>
+                    {{ forecast.consolidatedWeather[i].min_temp | number : '1.0-0' }}{{ setupUnitDisplay }} /
+                    {{ forecast.consolidatedWeather[i].max_temp | number : '1.0-0' }}{{ setupUnitDisplay }}
+                </h4>
+            </div>
+            <div class="col-sm-6 col-xs-6" *ngIf="i == 0">
+                <p>
+                    <img class="weather-icon-large"
+                         src="images/{{ forecast.consolidatedWeather[i].weather_state_abbr }}.png"
+                         alt="{{ forecast.consolidatedWeather[i].weather_state_name }}"/>
+                </p>
+            </div>
+            <div class="col-sm-2 col-xs-2" *ngIf="i > 0">
+                <p>
+                    <img class="weather-icon-small"
+                         src="images/{{ forecast.consolidatedWeather[i].weather_state_abbr }}.png"
+                         alt="{{ forecast.consolidatedWeather[i].weather_state_name }}"/>
+                </p>
+                <p>{{ forecast.consolidatedWeather[i].weather_state_name }}</p>
+                <p>
+                    {{ forecast.consolidatedWeather[i].min_temp | number : '1.0-0' }}{{ setupUnitDisplay }} /
+                    {{ forecast.consolidatedWeather[i].max_temp | number : '1.0-0' }}{{ setupUnitDisplay }}
+                </p>
+                <p *ngIf="i == 1">
+                    Tomorrow
+                </p>
+                <p *ngIf="i > 1">
+                    {{ forecast.consolidatedWeather[i].applicable_date | date:'dd/MM/y' }}
+                </p>
             </div>
         </div>
     </div>

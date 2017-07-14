@@ -1,7 +1,10 @@
-import {Component, NgZone} from '@angular/core';
+import {Component, NgZone, OnInit, OnDestroy} from '@angular/core';
 import { DataService } from './app.service';
 import { Setup } from './setup';
-import {Forecast} from "./forecast";
+import { Forecast } from "./forecast";
+import { Router } from "@angular/router";
+// import { Moment } from "moment";
+import * as moment from 'moment/moment';
 
 // To interact with Electron
 const {ipcRenderer} = require('electron');
@@ -12,7 +15,7 @@ const {ipcRenderer} = require('electron');
     templateUrl: 'forecast.component.html',
     providers: [DataService]
 })
-export class ForecastComponent {
+export class ForecastComponent implements OnInit, OnDestroy {
 
     setupLoaded: boolean = false;
 
@@ -24,13 +27,32 @@ export class ForecastComponent {
 
     setupUnitDisplay: string = '';
 
-    constructor(private dataService: DataService, private zone: NgZone) {
+    nowDay: string;
+
+    nowTime: string;
+
+    timer: number;
+
+    constructor(private dataService: DataService, private zone: NgZone, private router: Router) {
+    }
+
+    ngOnInit() {
         ipcRenderer.send('load-user-settings');
 
         ipcRenderer.on('load-user-settings-reply', function(event, arg) {
+            if (arg === false) {
+                // If user has no setting => setup page
+                this.router.navigate(['/setup']);
+            }
+
             let data = JSON.parse(arg);
             this.loadSetupData(data);
             this.loadForecast();
+
+            // Update date and time every second
+            this.timer = setInterval(()=> {
+                this.updateTime();
+            }, 1000);
 
         }.bind(this));
     }
@@ -74,5 +96,22 @@ export class ForecastComponent {
     private refreshZone() {
         this.zone.run(()=>void 0);
     }
+
+    updateTime() {
+        console.log('Update time!');
+        this.nowDay = moment().format('dddd, Do MMMM YYYY');
+        this.nowTime = moment().format('HH:mm:ss');
+        this.refreshZone();
+    }
+
+    ngOnDestroy() {
+        // Not working?!
+        console.log('Destroy!');
+        console.log(this.timer);
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+    }
+
 
 }

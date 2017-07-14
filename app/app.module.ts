@@ -11,11 +11,11 @@ import { ForecastComponent }   from './forecast.component';
 const appRoutes: Routes = [
     { path: 'setup', component: SetupComponent },
     { path: 'forecast', component: ForecastComponent },
-    { path: '',
-        pathMatch: 'full',
-        component: SetupComponent
-    },
-    { path: '**', redirectTo: '' }
+    // { path: '',
+    //     pathMatch: 'full',
+    //     component: ForecastComponent
+    // },
+    { path: '**', redirectTo: 'forecast' }
 ];
 
 @NgModule({

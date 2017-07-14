@@ -17,11 +17,11 @@ const forecast_component_1 = require("./forecast.component");
 const appRoutes = [
     { path: 'setup', component: setup_component_1.SetupComponent },
     { path: 'forecast', component: forecast_component_1.ForecastComponent },
-    { path: '',
-        pathMatch: 'full',
-        component: setup_component_1.SetupComponent
-    },
-    { path: '**', redirectTo: '' }
+    // { path: '',
+    //     pathMatch: 'full',
+    //     component: ForecastComponent
+    // },
+    { path: '**', redirectTo: 'forecast' }
 ];
 let AppModule = class AppModule {
 };

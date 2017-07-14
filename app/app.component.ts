@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
     // template: '<h1>My First Angular 2 RC6 App with Electron</h1>'
     templateUrl: 'app.component.html'
 })
-export class AppComponent { }
+export class AppComponent {
+
+}
