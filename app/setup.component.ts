@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Setup } from './setup';
 import { DataService } from './app.service';
+import { CompleterService, CompleterData } from 'ng2-completer';
 
 // To interact with Electron
 const {ipcRenderer} = require('electron');
@@ -14,8 +15,13 @@ const {ipcRenderer} = require('electron');
 })
 export class SetupComponent {
 
-    constructor(private dataService: DataService, private router: Router) {
-
+    constructor(private dataService: DataService, private router: Router, private completerService: CompleterService) {
+        // this.locationService = dataService.;
+        this.locationRemote = this.completerService.remote(
+            'https://www.metaweather.com/api/location/search/?',
+            'query',
+            'location'
+        );
     }
 
     /**
@@ -38,9 +44,13 @@ export class SetupComponent {
 
     locationSearch: string;
 
+    locationSearchTest: string;
+
     locationSearchResult: any[] = [];
 
     locationSearchCount: number;
+
+    locationRemote: CompleterData;
 
     searchLocation() {
         this.dataService.queryLocation(this.locationSearch).then(function(res){

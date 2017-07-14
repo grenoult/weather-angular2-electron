@@ -3,7 +3,9 @@
     var map = {
         'app': 'app', // 'dist',
         '@angular': 'node_modules/@angular',
-        'rxjs': 'node_modules/rxjs'
+        'rxjs': 'node_modules/rxjs',
+        'moment': 'node_modules/moment',
+        'ng2-completer': 'node_modules/ng2-completer/ng2-completer.umd.js'
     };
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {
@@ -12,6 +14,9 @@
             defaultExtension: 'js'
         },
         'rxjs': {
+            defaultExtension: 'js'
+        },
+        'moment': {
             defaultExtension: 'js'
         }
     };

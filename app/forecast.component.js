@@ -83,15 +83,11 @@ let ForecastComponent = class ForecastComponent {
         this.zone.run(() => void 0);
     }
     updateTime() {
-        console.log('Update time!');
         this.nowDay = moment().format('dddd, Do MMMM YYYY');
         this.nowTime = moment().format('HH:mm:ss');
         this.refreshZone();
     }
     ngOnDestroy() {
-        // Not working?!
-        console.log('Destroy!');
-        console.log(this.timer);
         if (this.timer) {
             clearInterval(this.timer);
         }

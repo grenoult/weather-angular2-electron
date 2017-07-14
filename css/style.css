@@ -1,0 +1,23 @@
+body {
+    background: url(../images/citybg.jpg) no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff;
+}
+
+.weather-icon-small {
+    width: 50%;
+}
+
+.weather-icon-large {
+    width: 50%;
+}
+
+.navbar {
+    position: absolute;
+    right: 0;
+}
+
+.form-control-inline {
+    min-width: 0;
+    width: auto;
+}

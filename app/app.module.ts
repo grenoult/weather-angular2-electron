@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { Ng2CompleterModule } from "ng2-completer";
 
 import { AppComponent }   from './app.component';
 import { SetupComponent }   from './setup.component';
@@ -19,7 +20,14 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-    imports:      [ BrowserModule, FormsModule, HttpModule, JsonpModule, RouterModule.forRoot(appRoutes) ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        JsonpModule,
+        RouterModule.forRoot(appRoutes),
+        Ng2CompleterModule
+    ],
     declarations: [ AppComponent, SetupComponent, ForecastComponent ],
     bootstrap:    [ AppComponent ]
 })

@@ -100,7 +100,6 @@ export class ForecastComponent implements OnInit, OnDestroy {
     }
 
     updateTime() {
-        console.log('Update time!');
         this.nowDay = moment().format('dddd, Do MMMM YYYY');
         this.nowTime = moment().format('HH:mm:ss');
         this.refreshZone();

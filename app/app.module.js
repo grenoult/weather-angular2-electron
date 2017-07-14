@@ -11,6 +11,7 @@ const platform_browser_1 = require("@angular/platform-browser");
 const forms_1 = require("@angular/forms");
 const http_1 = require("@angular/http");
 const router_1 = require("@angular/router");
+const ng2_completer_1 = require("ng2-completer");
 const app_component_1 = require("./app.component");
 const setup_component_1 = require("./setup.component");
 const forecast_component_1 = require("./forecast.component");
@@ -27,7 +28,14 @@ let AppModule = class AppModule {
 };
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, http_1.JsonpModule, router_1.RouterModule.forRoot(appRoutes)],
+        imports: [
+            platform_browser_1.BrowserModule,
+            forms_1.FormsModule,
+            http_1.HttpModule,
+            http_1.JsonpModule,
+            router_1.RouterModule.forRoot(appRoutes),
+            ng2_completer_1.Ng2CompleterModule
+        ],
         declarations: [app_component_1.AppComponent, setup_component_1.SetupComponent, forecast_component_1.ForecastComponent],
         bootstrap: [app_component_1.AppComponent]
     })

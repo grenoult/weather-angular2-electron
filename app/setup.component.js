@@ -13,12 +13,14 @@ const core_1 = require("@angular/core");
 const router_1 = require("@angular/router");
 const setup_1 = require("./setup");
 const app_service_1 = require("./app.service");
+const ng2_completer_1 = require("ng2-completer");
 // To interact with Electron
 const { ipcRenderer } = require('electron');
 let SetupComponent = class SetupComponent {
-    constructor(dataService, router) {
+    constructor(dataService, router, completerService) {
         this.dataService = dataService;
         this.router = router;
+        this.completerService = completerService;
         /**
          * Store type of temperature unit in an array.
          * @type {number[]}
@@ -26,6 +28,8 @@ let SetupComponent = class SetupComponent {
         this.temperatureUnitValues = setup_1.Setup.getUnits();
         this.model = new setup_1.Setup();
         this.locationSearchResult = [];
+        // this.locationService = dataService.;
+        this.locationRemote = this.completerService.remote('https://www.metaweather.com/api/location/search/?', 'query', 'location');
     }
     /**
      * Get temperature Unit text.
@@ -56,7 +60,7 @@ SetupComponent = __decorate([
         templateUrl: 'setup.component.html',
         providers: [app_service_1.DataService]
     }),
-    __metadata("design:paramtypes", [app_service_1.DataService, router_1.Router])
+    __metadata("design:paramtypes", [app_service_1.DataService, router_1.Router, ng2_completer_1.CompleterService])
 ], SetupComponent);
 exports.SetupComponent = SetupComponent;
 //# sourceMappingURL=setup.component.js.map
