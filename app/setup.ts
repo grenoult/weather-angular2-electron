@@ -1,6 +1,3 @@
-const UNIT_FAHRENHEIT = 0;
-const UNIT_CELSIUS = 1;
-
 export class Setup {
     constructor(
         public unit: number = 1,
@@ -8,21 +5,24 @@ export class Setup {
         public locationTitle: string = null
     ) {}
 
+    static UNIT_FAHRENHEIT = 0;
+    static UNIT_CELSIUS = 1;
+
     static getUnitText (unit) {
         switch (unit) {
-            case UNIT_FAHRENHEIT:
+            case this.UNIT_FAHRENHEIT:
                 return 'Fahrenheit';
-            case UNIT_CELSIUS:
+            case this.UNIT_CELSIUS:
                 return 'Celsius';
         }
         return '';
     }
 
     static getUnitShortText (unit) {
-        switch (unit) {
-            case UNIT_FAHRENHEIT:
+        switch (+unit) {
+            case this.UNIT_FAHRENHEIT:
                 return '°F';
-            case UNIT_CELSIUS:
+            case this.UNIT_CELSIUS:
                 return '°C';
         }
         return '';
@@ -30,8 +30,8 @@ export class Setup {
 
     static getUnits() {
         return [
-            UNIT_FAHRENHEIT,
-            UNIT_CELSIUS
+            this.UNIT_FAHRENHEIT,
+            this.UNIT_CELSIUS
         ];
     }
 }

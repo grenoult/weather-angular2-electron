@@ -29,6 +29,9 @@ let ForecastComponent = class ForecastComponent {
         this.setup = new setup_1.Setup();
         this.setupUnitDisplay = '';
     }
+    /**
+     * On init, load user settings, forecast and timer.
+     */
     ngOnInit() {
         ipcRenderer.send('load-user-settings');
         ipcRenderer.on('load-user-settings-reply', function (event, arg) {
@@ -47,6 +50,11 @@ let ForecastComponent = class ForecastComponent {
             }
         }.bind(this));
     }
+    /**
+     * Load setup from local storage.
+     *
+     * @param {{}} userData
+     */
     loadSetupData(userData) {
         if (userData['location'] && userData['unit']) {
             this.setup.location = userData['location'];
@@ -56,6 +64,11 @@ let ForecastComponent = class ForecastComponent {
         this.setupLoaded = true;
         this.refreshZone();
     }
+    /**
+     * Loads weather forecast data from remote.
+     *
+     * @returns {boolean} False if no setup data, true otherwise.
+     */
     loadForecast() {
         if (!this.setupLoaded) {
             return false;
@@ -66,6 +79,18 @@ let ForecastComponent = class ForecastComponent {
             if (res['consolidated_weather'] && res['title']) {
                 this.forecast.consolidatedWeather = res['consolidated_weather'];
                 this.forecast.locationTitle = res['title'];
+            }
+            if (+this.setup.unit == setup_1.Setup.UNIT_FAHRENHEIT) {
+                for (let i in this.forecast.consolidatedWeather) {
+                    // Convert min temp from C to F
+                    let temp = this.forecast.consolidatedWeather[i].min_temp;
+                    temp = temp * 9 / 5 + 32;
+                    this.forecast.consolidatedWeather[i].min_temp = temp;
+                    // Convert max temp from C to F
+                    temp = this.forecast.consolidatedWeather[i].max_temp;
+                    temp = temp * 9 / 5 + 32;
+                    this.forecast.consolidatedWeather[i].max_temp = temp;
+                }
             }
             this.forecastLoaded = true;
             this.refreshZone();
@@ -82,6 +107,9 @@ let ForecastComponent = class ForecastComponent {
     refreshZone() {
         this.zone.run(() => void 0);
     }
+    /**
+     * Update day and time to indicate time.
+     */
     updateTime() {
         this.nowDay = moment().format('dddd, Do MMMM YYYY');
         this.nowTime = moment().format('HH:mm:ss');
