@@ -48,7 +48,7 @@ let SetupComponent = class SetupComponent {
         return setup_1.Setup.getUnitText(unit);
     }
     onLocationSelected($event) {
-        if ($event.originalObject && $event.originalObject.woeid && $event.originalObject.title) {
+        if ($event && $event.originalObject && $event.originalObject.woeid && $event.originalObject.title) {
             this.model.location = $event.originalObject.woeid;
             this.model.locationTitle = $event.originalObject.title;
         }

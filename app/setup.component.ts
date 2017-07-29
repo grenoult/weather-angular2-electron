@@ -57,7 +57,7 @@ export class SetupComponent implements OnInit {
     locationRemote: CompleterData;
 
     onLocationSelected($event) {
-        if ($event.originalObject && $event.originalObject.woeid && $event.originalObject.title) {
+        if ($event && $event.originalObject && $event.originalObject.woeid && $event.originalObject.title) {
             this.model.location = $event.originalObject.woeid;
             this.model.locationTitle = $event.originalObject.title;
         }

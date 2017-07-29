@@ -21,3 +21,7 @@ body {
     min-width: 0;
     width: auto;
 }
+
+.completer-dropdown {
+    color: #333;
+}
