@@ -3,9 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UNIT_FAHRENHEIT = 0;
 const UNIT_CELSIUS = 1;
 class Setup {
-    constructor(unit = 1, location = null) {
+    constructor(unit = 1, location = null, // woeid
+        locationTitle = null) {
         this.unit = unit;
         this.location = location;
+        this.locationTitle = locationTitle;
     }
     static getUnitText(unit) {
         switch (unit) {

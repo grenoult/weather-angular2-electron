@@ -11,28 +11,18 @@
 
     <div class="form-group">
         <label for="locationSearch">Location</label>
-        <input type="text" class="form-control form-control-inline" id="locationSearch" [(ngModel)]="locationSearch" name="locationSearch">
-        <ng2-completer [(ngModel)]="locationSearchTest" [datasource]="locationRemote" [minSearchLength]="2"></ng2-completer>
+        <ng2-completer [inputClass]="'form-control form-control-inline'"
+                       id="locationSearch"
+                       name="locationSearch"
+                       [(ngModel)]="locationSearch"
+                       [datasource]="locationRemote"
+                       [minSearchLength]="2"
+                       [placeholder]="model.locationTitle"
+                       [clearSelected]="true"
+                       (selected)="onLocationSelected($event)"
+        ></ng2-completer>
     </div>
 
-    <input type="button" class="btn btn-default" value="Search Location" (click)="searchLocation()">
-
-    <div *ngIf="locationSearchCount !== undefined">
-        <span *ngIf="locationSearchCount === 0">
-            There is no city available with the name "{{ locationSearch }}".
-        </span>
-        <div class="container" *ngIf="locationSearchCount > 0">
-            <div class="row" *ngFor="let record of locationSearchResult">
-                <div class="col-sm-3">
-                    {{ record.title }}
-                </div>
-                <div class="col-sm-3">
-                    <input class="btn btn-default" type="button" (click)="model.location = record.woeid" value="Select">
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <input type="button" class="btn btn-default" (click)="cancel()" value="Cancel"/>
     <input type="button" class="btn btn-primary" (click)="save()" value="Save"/>
-
 </form>

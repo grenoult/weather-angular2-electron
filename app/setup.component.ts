@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { Setup } from './setup';
 import { DataService } from './app.service';
@@ -13,15 +13,25 @@ const {ipcRenderer} = require('electron');
     templateUrl: 'setup.component.html',
     providers: [DataService]
 })
-export class SetupComponent {
+export class SetupComponent implements OnInit {
 
     constructor(private dataService: DataService, private router: Router, private completerService: CompleterService) {
         // this.locationService = dataService.;
         this.locationRemote = this.completerService.remote(
-            'https://www.metaweather.com/api/location/search/?',
-            'query',
-            'location'
+            'https://www.metaweather.com/api/location/search/?query=',
+            'title',
+            'title'
         );
+    }
+
+    ngOnInit() {
+        ipcRenderer.send('load-user-settings');
+
+        ipcRenderer.on('load-user-settings-reply', function(event, arg) {
+            if (arg !== false) {
+                this.model = JSON.parse(arg);
+            }
+        }.bind(this))
     }
 
     /**
@@ -44,27 +54,32 @@ export class SetupComponent {
 
     locationSearch: string;
 
-    locationSearchTest: string;
-
-    locationSearchResult: any[] = [];
-
-    locationSearchCount: number;
-
     locationRemote: CompleterData;
 
-    searchLocation() {
-        this.dataService.queryLocation(this.locationSearch).then(function(res){
-            this.locationSearchResult = res.json();
-            this.locationSearchCount = this.locationSearchResult.length;
-        }.bind(this));
+    onLocationSelected($event) {
+        if ($event.originalObject && $event.originalObject.woeid && $event.originalObject.title) {
+            this.model.location = $event.originalObject.woeid;
+            this.model.locationTitle = $event.originalObject.title;
+        }
     }
 
+    /**
+     * User saves settings.
+     * Saves changes locally and redirect to forecast page.
+     */
     save() {
         ipcRenderer.send('save-user-settings', this.model);
 
         ipcRenderer.on('save-user-settings-reply', function(event, arg) {
             this.router.navigate(['/forecast']);
         }.bind(this));
+    }
+
+    /**
+     * Cancel changes, go to forecast page.
+     */
+    cancel() {
+        this.router.navigate(['/forecast']);
     }
 
 }

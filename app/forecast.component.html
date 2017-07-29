@@ -38,6 +38,7 @@
                     Tomorrow
                 </p>
                 <p *ngIf="i > 1">
+                    {{ forecast.consolidatedWeather[i].applicable_date | date:'EEEE' }}<br/>
                     {{ forecast.consolidatedWeather[i].applicable_date | date:'dd/MM/y' }}
                 </p>
             </div>

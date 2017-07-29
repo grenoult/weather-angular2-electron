@@ -27,9 +27,16 @@ let SetupComponent = class SetupComponent {
          */
         this.temperatureUnitValues = setup_1.Setup.getUnits();
         this.model = new setup_1.Setup();
-        this.locationSearchResult = [];
         // this.locationService = dataService.;
-        this.locationRemote = this.completerService.remote('https://www.metaweather.com/api/location/search/?', 'query', 'location');
+        this.locationRemote = this.completerService.remote('https://www.metaweather.com/api/location/search/?query=', 'title', 'title');
+    }
+    ngOnInit() {
+        ipcRenderer.send('load-user-settings');
+        ipcRenderer.on('load-user-settings-reply', function (event, arg) {
+            if (arg !== false) {
+                this.model = JSON.parse(arg);
+            }
+        }.bind(this));
     }
     /**
      * Get temperature Unit text.
@@ -40,17 +47,27 @@ let SetupComponent = class SetupComponent {
     getTemperatureUnitTexts(unit) {
         return setup_1.Setup.getUnitText(unit);
     }
-    searchLocation() {
-        this.dataService.queryLocation(this.locationSearch).then(function (res) {
-            this.locationSearchResult = res.json();
-            this.locationSearchCount = this.locationSearchResult.length;
-        }.bind(this));
+    onLocationSelected($event) {
+        if ($event.originalObject && $event.originalObject.woeid && $event.originalObject.title) {
+            this.model.location = $event.originalObject.woeid;
+            this.model.locationTitle = $event.originalObject.title;
+        }
     }
+    /**
+     * User saves settings.
+     * Saves changes locally and redirect to forecast page.
+     */
     save() {
         ipcRenderer.send('save-user-settings', this.model);
         ipcRenderer.on('save-user-settings-reply', function (event, arg) {
             this.router.navigate(['/forecast']);
         }.bind(this));
+    }
+    /**
+     * Cancel changes, go to forecast page.
+     */
+    cancel() {
+        this.router.navigate(['/forecast']);
     }
 };
 SetupComponent = __decorate([

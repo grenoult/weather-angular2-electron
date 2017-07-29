@@ -4,7 +4,8 @@ const UNIT_CELSIUS = 1;
 export class Setup {
     constructor(
         public unit: number = 1,
-        public location: string = null,
+        public location: string = null, // woeid
+        public locationTitle: string = null
     ) {}
 
     static getUnitText (unit) {
