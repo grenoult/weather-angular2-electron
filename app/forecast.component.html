@@ -1,6 +1,17 @@
-<span *ngIf="!setupLoaded || !forecastLoaded">
-    Loading...
-</span>
+<div class="sk-fading-circle" *ngIf="!setupLoaded || !forecastLoaded">
+    <div class="sk-circle1 sk-circle"></div>
+    <div class="sk-circle2 sk-circle"></div>
+    <div class="sk-circle3 sk-circle"></div>
+    <div class="sk-circle4 sk-circle"></div>
+    <div class="sk-circle5 sk-circle"></div>
+    <div class="sk-circle6 sk-circle"></div>
+    <div class="sk-circle7 sk-circle"></div>
+    <div class="sk-circle8 sk-circle"></div>
+    <div class="sk-circle9 sk-circle"></div>
+    <div class="sk-circle10 sk-circle"></div>
+    <div class="sk-circle11 sk-circle"></div>
+    <div class="sk-circle12 sk-circle"></div>
+</div>
 
 <div *ngIf="setupLoaded && forecastLoaded">
     <h1>Today</h1>
@@ -16,14 +27,12 @@
                     {{ forecast.consolidatedWeather[i].max_temp | number : '1.0-0' }}{{ setupUnitDisplay }}
                 </h4>
             </div>
-            <div class="col-sm-6 col-xs-6" *ngIf="i == 0">
-                <p>
-                    <img class="weather-icon-large"
-                         src="images/{{ forecast.consolidatedWeather[i].weather_state_abbr }}.png"
-                         alt="{{ forecast.consolidatedWeather[i].weather_state_name }}"/>
-                </p>
+            <div class="col-sm-6 col-xs-6 text-center" *ngIf="i == 0">
+                <img class="weather-icon-large"
+                     src="images/{{ forecast.consolidatedWeather[i].weather_state_abbr }}.png"
+                     alt="{{ forecast.consolidatedWeather[i].weather_state_name }}"/>
             </div>
-            <div class="col-sm-2 col-xs-2" *ngIf="i > 0">
+            <div class="col-sm-2 col-xs-2 padding-top-40" *ngIf="i > 0" [ngClass]="{'col-sm-offset-1': i == 1}">
                 <p>
                     <img class="weather-icon-small"
                          src="images/{{ forecast.consolidatedWeather[i].weather_state_abbr }}.png"

@@ -24,12 +24,18 @@ function createWindow () {
     }));
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
         mainWindow = null
-    })
+    });
+
+    // Load new window links to external (os) browser
+    mainWindow.webContents.on('new-window', function(e, url) {
+        e.preventDefault();
+        require('electron').shell.openExternal(url);
+    });
 }
 
 app.on('ready', createWindow);
@@ -66,5 +72,3 @@ ipcMain.on('load-user-settings', (event, arg) => {
     });
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
